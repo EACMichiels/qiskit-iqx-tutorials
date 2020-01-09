@@ -1,0 +1,72 @@
+Phase Estimation and QFT
+•	QFT = Quantum Fourier Transformation
+•	Go to Composer.
+•	New Custom Experiment
+•	Copy and Paste this in the QASM Editor:
+include "qelib1.inc";
+qreg q[5];
+creg c[4];
+
+h q[0];
+h q[1];
+h q[2];
+h q[3];
+x q[4];
+cu1(1*4*2*pi/16) q[3],q[4];
+cu1(2*4*2*pi/16) q[2],q[4];
+cu1(4*4*2*pi/16) q[1],q[4];
+cu1(8*4*2*pi/16) q[0],q[4];
+
+h q[0];
+cu1(-pi/2) q[0],q[1];
+h q[1];
+cu1(-pi/4) q[0],q[2];
+cu1(-pi/2) q[1],q[2];
+h q[2];
+cu1(-pi/8) q[0],q[3];
+cu1(-pi/4) q[1],q[3];
+cu1(-pi/2) q[2],q[3];
+h q[3];
+measure q[0] -> c[0];
+measure q[1] -> c[1];
+measure q[2] -> c[2];
+measure q[3] -> c[3];
+
+After the blank line is the QFT-1
+You get this:
+QFT-1 : starts from H and ends with H, indicated with the red rectangle
+  
+Case 1: 
+cu1(1*4*2*pi/16) q[3],q[4];
+cu1(2*4*2*pi/16) q[2],q[4];
+cu1(4*4*2*pi/16) q[1],q[4];
+cu1(8*4*2*pi/16) q[0],q[4];
+
+This is pi/2 radians or 90 degrees. Indeed: 4*pi/16 = pi/4 = 0100 
+This corresponds with 0100 in the following diagram:
+ 
+ 
+ 
+Case 2: 
+cu1(1*8*2*pi/16) q[3],q[4];
+cu1(2*8*2*pi/16) q[2],q[4];
+cu1(4*8*2*pi/16) q[1],q[4];
+cu1(8*8*2*pi/16) q[0],q[4];
+This corresponds to 8*pi/16 = pi/2  1000
+
+ 
+ 
+Case 3: 
+cu1(1*16*2*pi/16) q[3],q[4];
+cu1(2*16*2*pi/16) q[2],q[4];
+cu1(4*16*2*pi/16) q[1],q[4];
+cu1(8*16*2*pi/16) q[0],q[4];
+This corresponds to 16*pi/16 = pi  0000
+ 
+Case 4: 
+cu1(1*7.5*2*pi/16) q[3],q[4];
+cu1(2*7.5*2*pi/16) q[2],q[4];
+cu1(4*7.5*2*pi/16) q[1],q[4];
+cu1(8*7.5*2*pi/16) q[0],q[4];
+This corresponds to 7.5*pi/16 = between 7*pi/16 and 8*pi/16
+Or: between 0111 and 1000
